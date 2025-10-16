@@ -9,11 +9,17 @@ extension UIView {
 
 class ViewController: UIViewController {
 
-
     private lazy var backgroundView: UIImageView = {
         let imageView = UIImageView()
         imageView.image = UIImage(named: "background")
         imageView.contentMode = .scaleAspectFill
+        return imageView.usesAutoLayout
+    }()
+    
+    private lazy var weatherIcon: UIImageView = {
+        let imageView = UIImageView()
+        imageView.image = UIImage(named: "sunIcon")
+        imageView.contentMode = .scaleAspectFit
         return imageView.usesAutoLayout
     }()
     
@@ -58,6 +64,7 @@ class ViewController: UIViewController {
         
         headerView.addSubview(cityLabel)
         headerView.addSubview(tempeatureLabel)
+        headerView.addSubview(weatherIcon)
     }
 
     private func setConstraints() {
@@ -66,19 +73,29 @@ class ViewController: UIViewController {
             backgroundView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             backgroundView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             backgroundView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-            
-            headerView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 60),
-            headerView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 35),
-            headerView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -35 ),
-            headerView.heightAnchor.constraint(equalToConstant: 169),
-            
-            cityLabel.topAnchor.constraint(equalTo: headerView.topAnchor, constant: 15),
-            cityLabel.leadingAnchor.constraint(equalTo: headerView.leadingAnchor, constant: 15),
-            cityLabel.trailingAnchor.constraint(equalTo: headerView.trailingAnchor, constant: -15 ),
-            
-            tempeatureLabel.topAnchor.constraint(equalTo: cityLabel.topAnchor, constant: 21),
-            tempeatureLabel.leadingAnchor.constraint(equalTo: headerView.leadingAnchor, constant: 15),
-            
         ])
+        
+        NSLayoutConstraint.activate([
+                headerView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 60),
+                headerView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 35),
+                headerView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -35 ),
+                headerView.heightAnchor.constraint(equalToConstant: 169),
+                
+                cityLabel.topAnchor.constraint(equalTo: headerView.topAnchor, constant: 15),
+                cityLabel.leadingAnchor.constraint(equalTo: headerView.leadingAnchor, constant: 15),
+                cityLabel.trailingAnchor.constraint(equalTo: headerView.trailingAnchor, constant: -15 ),
+                cityLabel.heightAnchor.constraint(equalToConstant: 20),
+                
+                tempeatureLabel.topAnchor.constraint(equalTo: cityLabel.topAnchor, constant: 21),
+                tempeatureLabel.leadingAnchor.constraint(equalTo: headerView.leadingAnchor, constant: 26),
+                tempeatureLabel.heightAnchor.constraint(equalToConstant: 85),
+                
+                weatherIcon.heightAnchor.constraint(equalToConstant: 86),
+                weatherIcon.widthAnchor.constraint(equalToConstant: 86),
+                weatherIcon.trailingAnchor.constraint(equalTo: headerView.trailingAnchor, constant: -26),
+                weatherIcon.centerYAnchor.constraint(equalTo: tempeatureLabel.centerYAnchor),
+                weatherIcon.leadingAnchor.constraint(equalTo: tempeatureLabel.trailingAnchor, constant: 15)
+            ]
+        )
     }
 }
